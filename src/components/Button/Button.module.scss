@@ -1,0 +1,27 @@
+.wrapper {
+    outline: none;
+}
+
+.wrapper + .wrapper {
+    margin-left: 1rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.small {
+    padding: 0 1rem;
+    min-height: 2rem;
+}
+
+.medium {
+    padding: 0 1.5rem;
+    min-height: 2.75rem;
+}
+
+.large {
+    padding: 0 2rem;
+    min-height: 3.25rem;
+}
