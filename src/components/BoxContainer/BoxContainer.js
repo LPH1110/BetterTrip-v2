@@ -2,6 +2,7 @@ import React from 'react';
 import { Tab } from '@headlessui/react';
 
 import { FlightPanel, HotelPanel } from './components';
+import NotFound from '../NotFound';
 
 const tabs = [
     {
@@ -39,7 +40,9 @@ function BoxContainer() {
                     <Tab.Panel>
                         <HotelPanel />
                     </Tab.Panel>
-                    <Tab.Panel>Content 3</Tab.Panel>
+                    <Tab.Panel>
+                        <NotFound />
+                    </Tab.Panel>
                 </Tab.Panels>
             </Tab.Group>
         </section>

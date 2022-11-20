@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 
-import OneWayPanel from './OneWayPanel';
-import ReturnPanel from './ReturnPanel';
-import MultiFlightPanel from './MultiFlightPanel';
+import { MultiFlightPanel, OneWayPanel, ReturnPanel } from './panels';
 
 const types = [
     {

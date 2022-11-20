@@ -8,15 +8,15 @@ import { StoreProvider } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <StoreProvider>
-            <GlobalStyles>
-                <Router>
-                    <App />
-                </Router>
-            </GlobalStyles>
-        </StoreProvider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <StoreProvider>
+        <GlobalStyles>
+            <Router>
+                <App />
+            </Router>
+        </GlobalStyles>
+    </StoreProvider>,
+    // </React.StrictMode>,
 );
 
 reportWebVitals();

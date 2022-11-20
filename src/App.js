@@ -1,5 +1,6 @@
 import { publicRoutes as routes } from './routes';
 import { Routes, Route } from 'react-router-dom';
+import { ScrollToTop } from './components';
 
 function App() {
     return (
@@ -16,7 +17,9 @@ function App() {
                             exact
                             element={
                                 <Layout>
-                                    <Component />
+                                    <ScrollToTop>
+                                        <Component />
+                                    </ScrollToTop>
                                 </Layout>
                             }
                         />
@@ -26,7 +29,9 @@ function App() {
                             path={route.path}
                             element={
                                 <Layout>
-                                    <Component />
+                                    <ScrollToTop>
+                                        <Component />
+                                    </ScrollToTop>
                                 </Layout>
                             }
                         />

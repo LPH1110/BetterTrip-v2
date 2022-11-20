@@ -1,4 +1,11 @@
-import { SET_USER_SESSION, SET_SEARCH_PRODUCT_FORM, SET_FILTER_FORM } from './constants';
+import {
+    SET_USER_SESSION,
+    SET_SEARCH_PRODUCT_FORM,
+    SET_FILTER_FORM,
+    SET_FLIGHT_ONEWAY,
+    SET_FLIGHT_RETURN,
+    SWITCH_LOCATIONS,
+} from './constants';
 
 export const setUserSession = (...payload) => {
     return {
@@ -24,5 +31,26 @@ export const setFilterForm = (key, value) => {
             key,
             value,
         },
+    };
+};
+
+export const setFlightOneWay = (payload) => {
+    return {
+        type: SET_FLIGHT_ONEWAY,
+        payload,
+    };
+};
+
+export const setFlightReturn = (payload) => {
+    return {
+        type: SET_FLIGHT_RETURN,
+        payload,
+    };
+};
+
+export const switchLocations = (payload) => {
+    return {
+        type: SWITCH_LOCATIONS,
+        payload,
     };
 };

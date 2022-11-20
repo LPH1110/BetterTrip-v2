@@ -2,15 +2,6 @@ import { useEffect } from 'react';
 import { BoxContainer } from '~/components';
 
 function Home() {
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            right: 0,
-            behavior: 'smooth',
-        });
-    }, []);
-
     return (
         <section className="">
             {/* Landing section */}

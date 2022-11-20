@@ -49,9 +49,9 @@ function Header() {
     return (
         <header
             ref={headerRef}
-            className="z-[9999] transition-shadow ease-in-out duration-400 fixed left-0 right-0 top-0 w-screen h-20 flex items-center justify-between bg-transparent px-5"
+            className="z-[100000] transition-shadow ease-in-out duration-400 fixed left-0 right-0 top-0 w-screen h-20 flex items-center justify-between bg-transparent px-5"
         >
-            <a className="min-w-[5rem] h-full">
+            <a href="/" className="min-w-[5rem] h-full">
                 <img
                     className="w-full h-full"
                     src="https://res.cloudinary.com/dup2fxrco/image/upload/v1668565049/bettertrip/bettertrip-transparent_t2joky.png"
