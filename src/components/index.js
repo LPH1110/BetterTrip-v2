@@ -6,3 +6,4 @@ export { default as PopperWrapper } from './PopperWrapper';
 export { default as Tooltip } from './Tooltip';
 export { default as ScrollToTop } from './ScrollToTop';
 export { default as ListBoxPopper } from './ListBoxPopper';
+export { default as FlightTicket } from './FlightTicket';

@@ -1,8 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { UserGroupIcon, ArrowLongRightIcon, FunnelIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames/bind';
+import styles from './SearchFlight.module.scss';
+import { useEffect } from 'react';
 
 import { useStore } from '~/store';
-import { Button, ListBoxPopper } from '~/components';
+import { Button, ListBoxPopper, FlightTicket } from '~/components';
+import axios from 'axios';
+
+const cx = classNames.bind(styles);
 
 const filters = [
     {
@@ -27,10 +33,27 @@ const filters = [
 function SearchFlight() {
     const [state, dispatch] = useStore();
     const { ticketType } = useParams();
-    const { name, source, destination, departureDate, passengers } = state[`${ticketType}Panel`];
+    const panel = state[`${ticketType}Panel`];
+    const { name, source, departureDate, destination, passengers } = panel;
+
+    useEffect(() => {
+        const fetchTickets = async () => {
+            try {
+                const flightTickets = await axios.post('http://localhost:3001/flights/tickets', {
+                    source,
+                    destination,
+                    departureDate,
+                });
+                console.log(flightTickets.data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        fetchTickets();
+    }, []);
 
     return (
-        <section className="pt-4">
+        <section className="pt-4 relative">
             {/* Header */}
             <section className="flex items-center justify-between">
                 <div>
@@ -86,56 +109,36 @@ function SearchFlight() {
             </section>
             {/* Tickets */}
             <section>
-                <div className="rounded-lg flex items-center bg-sky-100">
-                    <div className="p-3">
-                        <img src="https://flight.hahalolo.com/bb8c9a3f56366b5c501f0db5574d0942.svg" />
-                    </div>
-                    <div className="p-3 flex-1 flex items-center justify-between">
-                        <div>
-                            <h4 className="text-xl font-semibold">Bamboo Airways</h4>
-                            <p className="text-slate-500">Economy Smart</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold">QH1320</p>
-                        </div>
-                        <div className="text-center">
-                            <p>{departureDate}</p>
-                            <h4 className="text-2xl font-semibold">12:25</h4>
-                            <p className="font-semibold text-slate-700">{source}</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="text-slate-500">55 minutes</p>
-                            <p className="text-slate-500">Straight flight</p>
-                        </div>
-                        <div className="text-center">
-                            <p>{departureDate}</p>
-                            <h4 className="text-2xl font-semibold">13:20</h4>
-                            <p className="font-semibold text-slate-700">{destination}</p>
-                        </div>
-                        <div>
-                            <Button
-                                size="small"
-                                type="button"
-                                className="text-sky-500 hover:underline hover:text-sky-400 ease duration-200"
-                            >
-                                Details
-                            </Button>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <h4 className="text-xl text-red-400 font-semibold mb-2">
-                                1.542.000 <span className="underline">đ</span>
-                            </h4>
-                            <Button
-                                size="small"
-                                type="button"
-                                className="text-slate-100 rounded-full bg-sky-500 hover:bg-sky-400 ease-in-out duration-200"
-                            >
-                                Choose
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+                <FlightTicket data={panel} />
+                <FlightTicket data={panel} />
+                <FlightTicket data={panel} />
+                <FlightTicket data={panel} />
+                <FlightTicket data={panel} />
+                <FlightTicket data={panel} />
             </section>
+            <div className="rounded-lg max-w-full w-[82.5rem] px-3 py-6 shadow-[0_0_20px_0_rgba(148,163,184,0.3)] bg-white flex items-center justify-between fixed bottom-[5%] left-1/2 -translate-x-1/2">
+                <div className="py-1">
+                    <h5 className="font-semibold text-lg flex items-center">
+                        Total cost:
+                        <p className="text-red-400 ml-2">
+                            0 <span className="underline">đ</span>
+                        </p>
+                    </h5>
+                    <p className="text-slate-500">(Tax and fee are included in the cost)</p>
+                </div>
+                <div className="flex items-center">
+                    <p className="mr-4 text-slate-500">
+                        Chose <span className="font-semibold text-red-400">0/1</span> flights
+                    </p>
+                    <Button
+                        size="medium"
+                        type="button"
+                        className="font-semibold text-slate-100 bg-sky-500 hover:bg-sky-400 ease-in-out duration-200 rounded-full"
+                    >
+                        Place ticket
+                    </Button>
+                </div>
+            </div>
         </section>
     );
 }

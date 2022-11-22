@@ -63,13 +63,24 @@ function Header() {
                     {navigations.map((nav) => {
                         return nav.path === '/' ? (
                             <li className="px-3" key={nav.id}>
-                                <NavLink className="hover:text-sky-400 ease duration-200" end to={nav.path}>
+                                <NavLink
+                                    className={({ isActive }) =>
+                                        isActive ? 'text-sky-500' : 'hover:text-sky-400 ease duration-200'
+                                    }
+                                    end
+                                    to={nav.path}
+                                >
                                     {nav.title}
                                 </NavLink>
                             </li>
                         ) : (
                             <li className="px-3" key={nav.id}>
-                                <NavLink className="hover:text-sky-400 ease duration-200" to={nav.path}>
+                                <NavLink
+                                    className={({ isActive }) =>
+                                        isActive ? 'text-sky-500' : 'hover:text-sky-400 ease duration-200'
+                                    }
+                                    to={nav.path}
+                                >
                                     {nav.title}
                                 </NavLink>
                             </li>

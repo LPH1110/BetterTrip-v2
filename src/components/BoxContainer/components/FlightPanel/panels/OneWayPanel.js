@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import classNames from 'classnames/bind';
 import { CalendarIcon, PlaneDepartureIcon, PlaneLandingIcon, SwitchArrowsIcon } from '~/assets/images/icons';
@@ -32,12 +33,6 @@ function OneWayPanel() {
         passengers: Yup.string().required(),
     });
 
-    const handleSubmit = () => {
-        console.log('submitted: ');
-        console.log(oneWayPanel);
-        navigate('/results/oneWay');
-    };
-
     const handleChangeOneWayPanel = (prop, { type, payload }) => {
         switch (type) {
             case 'area':
@@ -62,7 +57,7 @@ function OneWayPanel() {
     };
     return (
         <div>
-            <Formik onSubmit={(e) => handleSubmit(e)} initialValues={initialValues} validationSchema={validationSchema}>
+            <Formik initialValues={initialValues} validationSchema={validationSchema}>
                 <Form autoComplete="off" className="text-lg">
                     <section className="grid grid-cols-2">
                         <section className="flex items-center">
@@ -209,7 +204,8 @@ function OneWayPanel() {
                         <Button
                             className="text-slate-100 bg-sky-500 rounded-lg hover:bg-sky-400 ease-in-out duration-200"
                             size="large"
-                            type="submit"
+                            type="button"
+                            onClick={() => navigate('/results/oneWay')}
                         >
                             Search
                         </Button>
