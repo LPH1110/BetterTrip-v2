@@ -5,14 +5,8 @@ const initState = {
     loggedIn: false,
     oneWayPanel: {
         name: 'One Way Flight',
-        source: {
-            id: '',
-            name: '',
-        },
-        destination: {
-            id: '',
-            name: '',
-        },
+        source: '',
+        destination: '',
         departureDate: format(new Date(), 'dd/MM/yyyy'),
         passengers: {
             adult: 1,
@@ -22,14 +16,8 @@ const initState = {
     },
     returnPanel: {
         name: 'Return Flight',
-        source: {
-            id: '',
-            name: '',
-        },
-        destination: {
-            id: '',
-            name: '',
-        },
+        source: '',
+        destination: '',
         date: {
             startDate: format(new Date(), 'dd/MM/yyyy'),
             endDate: format(new Date(), 'dd/MM/yyyy'),
@@ -52,11 +40,11 @@ function reducer(state, action) {
         case SET_FLIGHT_ONEWAY:
             let newOneWayState = { ...state };
             switch (action.payload.key) {
+                case 'source':
+                case 'destination':
                 case 'departureDate':
                     newOneWayState.oneWayPanel[action.payload.key] = action.payload.value;
                     break;
-                case 'source':
-                case 'destination':
                 case 'passengers':
                     newOneWayState.oneWayPanel[action.payload.key] = {
                         ...action.payload.value,
@@ -73,6 +61,8 @@ function reducer(state, action) {
             switch (action.payload.key) {
                 case 'source':
                 case 'destination':
+                    newReturnState.returnPanel[action.payload.key] = action.payload.value;
+                    break;
                 case 'date':
                 case 'passengers':
                     newReturnState.returnPanel[action.payload.key] = {

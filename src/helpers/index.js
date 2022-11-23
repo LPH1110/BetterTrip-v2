@@ -5,3 +5,8 @@ export const toCamelCase = (str) => {
         })
         .replace(/\s+/g, '');
 };
+
+export const currencyFormatter = new Intl.NumberFormat(undefined, {
+    style: 'currency',
+    currency: 'VND',
+});

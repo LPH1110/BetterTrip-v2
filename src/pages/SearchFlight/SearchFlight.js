@@ -2,10 +2,10 @@ import { useParams } from 'react-router-dom';
 import { UserGroupIcon, ArrowLongRightIcon, FunnelIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames/bind';
 import styles from './SearchFlight.module.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useStore } from '~/store';
-import { Button, ListBoxPopper, FlightTicket } from '~/components';
+import { Button, ListBoxPopper, FlightTicket, ResultNotFound } from '~/components';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
@@ -35,25 +35,54 @@ function SearchFlight() {
     const { ticketType } = useParams();
     const panel = state[`${ticketType}Panel`];
     const { name, source, departureDate, destination, passengers } = panel;
+    const [flightTickets, setFlightTickets] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const [resultNotFound, setResultNotFound] = useState(false);
+
+    console.log(flightTickets);
 
     useEffect(() => {
-        const fetchTickets = async () => {
+        const fetchFlights = async () => {
             try {
-                const flightTickets = await axios.post('http://localhost:3001/flights/tickets', {
+                const flights = await axios.post('http://localhost:3001/flights', {
                     source,
                     destination,
                     departureDate,
                 });
-                console.log(flightTickets.data);
+
+                return flights;
             } catch (e) {
                 console.error(e);
             }
         };
-        fetchTickets();
+
+        setLoading(true);
+
+        fetchFlights().then((res) => {
+            let flights = res.data;
+            if (flights.length !== 0) {
+                flights.forEach(async (flight) => {
+                    let ticket = await axios.post('http://localhost:3001/flight-tickets', {
+                        FlightID: flight.FlightID,
+                    });
+
+                    let { _id, ...props } = ticket.data;
+
+                    Object.assign(flight, { ...props });
+                });
+
+                setFlightTickets(flights);
+            } else {
+                setResultNotFound(true);
+            }
+        });
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000);
     }, []);
 
     return (
-        <section className="pt-4 relative">
+        <section className="pt-4 pb-[10rem] relative">
             {/* Header */}
             <section className="flex items-center justify-between">
                 <div>
@@ -102,19 +131,21 @@ function SearchFlight() {
                     <span className="text-lg">According: </span>
                     <div>
                         {filters.map((filter) => (
-                            <ListBoxPopper data={filter} />
+                            <ListBoxPopper key={filter.id} data={filter} />
                         ))}
                     </div>
                 </div>
             </section>
             {/* Tickets */}
             <section>
-                <FlightTicket data={panel} />
-                <FlightTicket data={panel} />
-                <FlightTicket data={panel} />
-                <FlightTicket data={panel} />
-                <FlightTicket data={panel} />
-                <FlightTicket data={panel} />
+                {isLoading ? (
+                    <h1>Loading...</h1>
+                ) : (
+                    flightTickets.map((ticket) => (
+                        <FlightTicket passengers={passengers} key={ticket.TicketID} data={panel} ticket={ticket} />
+                    ))
+                )}
+                {resultNotFound && <ResultNotFound />}
             </section>
             <div className="rounded-lg max-w-full w-[82.5rem] px-3 py-6 shadow-[0_0_20px_0_rgba(148,163,184,0.3)] bg-white flex items-center justify-between fixed bottom-[5%] left-1/2 -translate-x-1/2">
                 <div className="py-1">

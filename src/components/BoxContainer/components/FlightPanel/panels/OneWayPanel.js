@@ -36,7 +36,7 @@ function OneWayPanel() {
     const handleChangeOneWayPanel = (prop, { type, payload }) => {
         switch (type) {
             case 'area':
-                dispatch(actions.setFlightOneWay({ key: prop, value: `${payload.name} (${payload.id})` }));
+                dispatch(actions.setFlightOneWay({ key: prop, value: `${payload.AreaName} (${payload.AreaID})` }));
                 break;
             case 'date':
             case 'passengers':

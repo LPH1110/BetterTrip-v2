@@ -9,7 +9,7 @@ function CalendarPopper({ onDispatch, prop }) {
     const [date, setDate] = useState(new Date());
 
     const handleSelect = (date) => {
-        onDispatch(prop, { type: 'date', payload: format(date, 'dd/MM/yyyy') });
+        onDispatch(prop, { type: 'date', payload: format(date, 'dd-MM-yyyy') });
         setDate(date);
     };
     return <Calendar minDate={new Date()} date={date} onChange={handleSelect} />;

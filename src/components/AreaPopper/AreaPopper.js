@@ -1,13 +1,26 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames/bind';
 import styles from './AreaPopper.module.scss';
-import { dataStore } from '~/store';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 function AreaPopper({ onDispatch, prop }) {
-    const { areas } = dataStore;
+    const [areas, setAreas] = useState([]);
+
+    useEffect(() => {
+        const fetchAreas = async () => {
+            try {
+                const areas = await axios.get('http://localhost:3001/areas');
+                setAreas(areas.data);
+            } catch (e) {
+                console.error("Can't fetch areas from AreaPopper.js");
+            }
+        };
+
+        fetchAreas();
+    }, []);
 
     const handleClickItem = (area) => {
         onDispatch(prop, { type: 'area', payload: area });
@@ -45,10 +58,10 @@ function AreaPopper({ onDispatch, prop }) {
                                     'area-item',
                                     'cursor-pointer hover:bg-slate-200 rounded-md ease duration-200 p-1',
                                 )}
-                                key={area.id}
+                                key={area._id}
                                 onClick={() => handleClickItem(area)}
                             >
-                                <span className="px-2 text-[1rem]">{`${area.name} (${area.id})`}</span>
+                                <span className="px-2 text-[1rem]">{`${area.AreaName} (${area.AreaID})`}</span>
                             </li>
                         ))}
                     </ul>
