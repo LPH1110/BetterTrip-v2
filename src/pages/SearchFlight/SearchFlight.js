@@ -1,12 +1,13 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { UserGroupIcon, ArrowLongRightIcon, FunnelIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames/bind';
 import styles from './SearchFlight.module.scss';
 import { useEffect, useState } from 'react';
 
-import { useStore } from '~/store';
+import { useStore, actions } from '~/store';
 import { Button, ListBoxPopper, FlightTicket, ResultNotFound } from '~/components';
 import axios from 'axios';
+import { currencyFormatter } from '~/helpers';
 
 const cx = classNames.bind(styles);
 
@@ -38,8 +39,17 @@ function SearchFlight() {
     const [flightTickets, setFlightTickets] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [resultNotFound, setResultNotFound] = useState(false);
+    const [currentChosenTicket, setCurrentChosenTicket] = useState({});
+    const [ticketAmount, setTicketAmount] = useState(0);
+    const navigate = useNavigate();
 
-    console.log(flightTickets);
+    const placeOrder = () => {
+        if (ticketAmount !== 0) {
+            console.log(currentChosenTicket);
+            dispatch(actions.setChosenFlightTicket(currentChosenTicket));
+            navigate('/booking/flight');
+        }
+    };
 
     useEffect(() => {
         const fetchFlights = async () => {
@@ -92,6 +102,8 @@ function SearchFlight() {
                             <UserGroupIcon className="w-6 h-6" />
                         </span>
                         {passengers.adult > 0 && `${passengers.adult} adult`}
+                        {passengers.child > 0 && `, ${passengers.child} child`}
+                        {passengers.babies > 0 && `, ${passengers.babies} babies`}
                     </p>
                 </div>
                 <div>
@@ -142,7 +154,14 @@ function SearchFlight() {
                     <h1>Loading...</h1>
                 ) : (
                     flightTickets.map((ticket) => (
-                        <FlightTicket passengers={passengers} key={ticket.TicketID} data={panel} ticket={ticket} />
+                        <FlightTicket
+                            setCurrentChosenTicket={setCurrentChosenTicket}
+                            setTicketAmount={setTicketAmount}
+                            passengers={passengers}
+                            key={ticket.TicketID}
+                            data={panel}
+                            ticket={ticket}
+                        />
                     ))
                 )}
                 {resultNotFound && <ResultNotFound />}
@@ -152,19 +171,27 @@ function SearchFlight() {
                     <h5 className="font-semibold text-lg flex items-center">
                         Total cost:
                         <p className="text-red-400 ml-2">
-                            0 <span className="underline">đ</span>
+                            {currentChosenTicket.totalTicketCost
+                                ? currencyFormatter.format(currentChosenTicket.totalTicketCost)
+                                : 0}
                         </p>
                     </h5>
                     <p className="text-slate-500">(Tax and fee are included in the cost)</p>
                 </div>
                 <div className="flex items-center">
                     <p className="mr-4 text-slate-500">
-                        Chose <span className="font-semibold text-red-400">0/1</span> flights
+                        Chose <span className="mx-1 font-semibold text-red-400">{ticketAmount}/1</span>
+                        flights
                     </p>
                     <Button
                         size="medium"
                         type="button"
-                        className="font-semibold text-slate-100 bg-sky-500 hover:bg-sky-400 ease-in-out duration-200 rounded-full"
+                        onClick={placeOrder}
+                        className={
+                            ticketAmount === 0
+                                ? 'font-semibold text-slate-500 bg-slate-300 ease-in-out duration-200 rounded-full'
+                                : 'font-semibold text-white bg-orange-500 hover:bg-orange-400 ease-in-out duration-200 rounded-full'
+                        }
                     >
                         Place ticket
                     </Button>

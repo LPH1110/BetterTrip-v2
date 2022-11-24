@@ -5,6 +5,7 @@ import {
     SET_FLIGHT_ONEWAY,
     SET_FLIGHT_RETURN,
     SWITCH_LOCATIONS,
+    SET_CHOSEN_FLIGHT_TICKET,
 } from './constants';
 
 export const setUserSession = (...payload) => {
@@ -51,6 +52,13 @@ export const setFlightReturn = (payload) => {
 export const switchLocations = (payload) => {
     return {
         type: SWITCH_LOCATIONS,
+        payload,
+    };
+};
+
+export const setChosenFlightTicket = (payload) => {
+    return {
+        type: SET_CHOSEN_FLIGHT_TICKET,
         payload,
     };
 };

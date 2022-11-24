@@ -4,7 +4,7 @@ import { PlaneDepartureIcon, PlaneLandingIcon } from '~/assets/images/icons';
 import axios from 'axios';
 import { currencyFormatter } from '~/helpers';
 
-function FlightTicketDetail({ data, diffMinutes, passengers }) {
+function FlightTicketDetail({ chosen, setTicketAmount, setCurrentChosenTicket, data, diffMinutes, passengers }) {
     const { adult, child, babies } = passengers;
     const [airports, setAirports] = useState({
         departureAirport: {
@@ -29,7 +29,6 @@ function FlightTicketDetail({ data, diffMinutes, passengers }) {
         const fetchAirports = async () => {
             try {
                 const airports = await axios.post('http://localhost:3001/airports', { AirlineID: data.AirlineID });
-                console.log(airports.data);
                 setAirports(airports.data);
             } catch (e) {
                 console.error("Can't get airports by airlineID: " + data.AirlineID);
@@ -37,7 +36,23 @@ function FlightTicketDetail({ data, diffMinutes, passengers }) {
         };
 
         fetchAirports();
-    }, []);
+
+        if (chosen) {
+            setCurrentChosenTicket({
+                ...data,
+                ...airports,
+                adultCost: adultCost(),
+                childCost: childCost(),
+                babiesCost: babiesCost(),
+                totalTicketCost: totalTicketCost(),
+                ...passengers,
+            });
+            setTicketAmount(1);
+        } else {
+            setCurrentChosenTicket({});
+            setTicketAmount(0);
+        }
+    }, [chosen]);
 
     return (
         <section className="p-2 my-2 grid grid-cols-5 rounded-lg w-full bg-white shadow-[0_0_20px_0_rgba(148,163,184,0.3)]">

@@ -8,10 +8,11 @@ import { currencyFormatter } from '~/helpers';
 
 const cx = classNames.bind(styles);
 
-function FlightTicket({ data, ticket, passengers }) {
+function FlightTicket({ setCurrentChosenTicket, setTicketAmount, data, ticket, passengers }) {
     const [showTicketDetail, setShowTicketDetail] = useState(false);
     const { source, destination, departureDate } = data;
     const [chosen, setChosen] = useState(false);
+    const [ticketDetail, setTicketDetail] = useState({});
 
     const diffMinutes = (d1, d2) => {
         let diff = (d1.getTime() - d2.getTime()) / 1000;
@@ -21,6 +22,13 @@ function FlightTicket({ data, ticket, passengers }) {
 
     const handleChooseTicket = () => {
         setChosen(!chosen);
+        if (!chosen) {
+            setShowTicketDetail(true);
+        } else {
+            setCurrentChosenTicket({});
+            setTicketAmount(0);
+            setShowTicketDetail(false);
+        }
     };
 
     return (
@@ -95,6 +103,9 @@ function FlightTicket({ data, ticket, passengers }) {
             </div>
             {showTicketDetail && (
                 <FlightTicketDetail
+                    chosen={chosen}
+                    setCurrentChosenTicket={setCurrentChosenTicket}
+                    setTicketAmount={setTicketAmount}
                     passengers={passengers}
                     data={{ ...ticket, source, destination }}
                     diffMinutes={diffMinutes}
@@ -104,4 +115,4 @@ function FlightTicket({ data, ticket, passengers }) {
     );
 }
 
-export default memo(FlightTicket);
+export default FlightTicket;

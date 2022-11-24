@@ -8,3 +8,4 @@ export { default as ScrollToTop } from './ScrollToTop';
 export { default as ListBoxPopper } from './ListBoxPopper';
 export { default as FlightTicket } from './FlightTicket';
 export { default as ResultNotFound } from './ResultNotFound';
+export { default as Toast } from './Toast';

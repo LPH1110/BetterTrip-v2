@@ -1,4 +1,10 @@
-import { SET_USER_SESSION, SET_FLIGHT_ONEWAY, SET_FLIGHT_RETURN, SWITCH_LOCATIONS } from './constants';
+import {
+    SET_USER_SESSION,
+    SET_FLIGHT_ONEWAY,
+    SET_FLIGHT_RETURN,
+    SWITCH_LOCATIONS,
+    SET_CHOSEN_FLIGHT_TICKET,
+} from './constants';
 import { format } from 'date-fns';
 
 const initState = {
@@ -28,6 +34,7 @@ const initState = {
             babies: 0,
         },
     },
+    chosenFlightTicket: {},
 };
 
 function reducer(state, action) {
@@ -82,6 +89,13 @@ function reducer(state, action) {
             newState[action.payload].source = temp;
             console.log(newState[action.payload].source);
             return newState;
+        case SET_CHOSEN_FLIGHT_TICKET:
+            return {
+                ...state,
+                chosenFlightTicket: {
+                    ...action.payload,
+                },
+            };
         default:
             throw new Error('Invalid actions...');
     }
