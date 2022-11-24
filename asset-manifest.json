@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/BetterTrip-v2/static/css/main.051d2e69.css",
+    "main.js": "/BetterTrip-v2/static/js/main.5b9545c5.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/BetterTrip-v2/static/js/787.c4e7f8f9.chunk.js",
+    "index.html": "/BetterTrip-v2/index.html",
+    "main.051d2e69.css.map": "/BetterTrip-v2/static/css/main.051d2e69.css.map",
+    "main.5b9545c5.js.map": "/BetterTrip-v2/static/js/main.5b9545c5.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/BetterTrip-v2/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.051d2e69.css",
+    "static/js/main.5b9545c5.js"
+  ]
+}
